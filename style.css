@@ -1,0 +1,35 @@
+
+body {
+	position: relative;
+	background-color: gray;
+}
+
+#gamearea {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	width: 640px;
+	height: 352px;
+	margin: auto;
+}
+
+#toolbar {
+	vertical-align: middle;
+	padding: 0px 4px;
+	width: 632px;
+	height: 32px;
+	background-color: lightgray;
+}
+
+#toolbar button {
+	vertical-align: sub;
+}
+
+#canvas {
+	position: absolute;
+	width: 640px;
+	height: 320px;
+	margin: auto;
+}
