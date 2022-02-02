@@ -3,16 +3,36 @@
 <head>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript" src="script.js"></script>
+    <title>SameGame</title>
+    <meta name="description" content="Remove adjacent squares of the same color" />
+    <meta name="keywords" content="SameGame,Same Game,MaciGame,さめがめ,まきがめ,鮫亀" />
 </head>
 
 <body>
     <div id="gamearea">
-        <div id="toolbar">
-            <button id="new">New</button>
-            <button id="undo">Undo</button>
-        </div>
-        <canvas id="canvas" width="640px" height="320px">
-	   </canvas>
+        <table id="toolbar">
+            <tr>
+                <td class="left">
+                    <button id="new">New</button>
+                    <button id="undo">Undo</button>
+                    <button id="retry">Retry</button>
+                    <button id="find">Find</button>
+                </td>
+                <td class="right">
+                    <canvas id="piece_1" width="22px" height="22px"></canvas>
+                    <span id="count_1">0</span>&nbsp;
+                    <canvas id="piece_2" width="22px" height="22px"></canvas>
+                    <span id="count_2">0</span>&nbsp;
+                    <canvas id="piece_3" width="22px" height="22px"></canvas>
+                    <span id="count_3">0</span>&nbsp;
+                    <canvas id="piece_4" width="22px" height="22px"></canvas>
+                    <span id="count_4">0</span>&nbsp;
+                    <canvas id="piece_5" width="22px" height="22px"></canvas>
+                    <span id="count_5">0</span>
+                </td>
+            </tr>
+        </table>
+        <canvas id="board" width="640px" height="384px"></canvas>
     </div>
 </body>
 

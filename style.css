@@ -11,25 +11,46 @@ body {
 	bottom: 0;
 	left: 0;
 	width: 640px;
-	height: 352px;
+	height: 416px; /* 32 * 12 + 32 */
 	margin: auto;
 }
 
 #toolbar {
-	vertical-align: middle;
-	padding: 0px 4px;
-	width: 632px;
+	padding: 0px;
+	width: 640px;
 	height: 32px;
 	background-color: lightgray;
 }
 
+#toolbar tr {
+	padding: 0px;
+}
+
+#toolbar td {
+	padding: 0px 4px;
+	font-size: small;
+	vertical-align: middle;
+}
+
+#toolbar td.left {
+	text-align: left;
+}
+
+#toolbar td.right {
+	text-align: right;
+}
+
+#toolbar canvas {
+	vertical-align: middle;
+}
+
 #toolbar button {
-	vertical-align: sub;
+	vertical-align: middle;
 }
 
 #canvas {
 	position: absolute;
 	width: 640px;
-	height: 320px;
+	height: 384px;
 	margin: auto;
 }
