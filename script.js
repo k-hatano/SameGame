@@ -283,6 +283,8 @@ function boardCanvasMouseDown(event) {
         vanish(x, y, boardArray[x][y]);
         grave();
         updateCountLabels();
+        lastMoveX = -1;
+        lastMoveY = -1;
     }
     situation = checkSituation();
     unfind();
