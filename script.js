@@ -10,7 +10,8 @@ const boardCanvasHeight = height * singleSize;
 let pieceImage = new Image();
 let boardArray = new Array();
 let highlightedArray = new Array();
-let undoBoardArrays = new Array();
+let undos = new Array();
+let score = 0;
 let situation = 0; // 0: Playable, 1: No Move, 2: Perfect
 
 let lastMoveX = -1;
@@ -24,6 +25,7 @@ onload = function() {
     let boardCanvas = document.getElementById("board");
     boardCanvas.addEventListener('mousedown', function(event) {
         boardCanvasMouseDown(event);
+        event.preventDefault();
     });
     boardCanvas.addEventListener('mousemove', function(event) {
         boardCanvasMouseMove(event);
@@ -134,7 +136,8 @@ function init() {
         boardArray[i] = new Array(height);
         highlightedArray[i] = new Array(height);
     }
-    undoBoardArrays = new Array();
+    undos = new Array();
+    score = 0;
 }
 
 function newGame(magic) {
@@ -148,20 +151,22 @@ function newGame(magic) {
 }
 
 function undo() {
-    let lastUndoBoardArray = undoBoardArrays.pop();
-    if (lastUndoBoardArray != undefined) {
+    let lastUndo = undos.pop();
+    if (lastUndo != undefined) {
+        boardArray = JSON.parse(lastUndo.boardArrayJSON);
+        score = lastUndo.score;
         situation = 0;
-        boardArray = JSON.parse(lastUndoBoardArray);
         drawCanvas();
         updateCountLabels();
     }
 }
 
 function retry() {
-    if (undoBoardArrays.length >= 1) {
+    if (undos.length >= 1) {
         situation = 0;
-        boardArray = JSON.parse(undoBoardArrays[0]);
-        undoBoardArrays = new Array();
+        boardArray = JSON.parse(undos[0].boardArrayJSON);
+        score = undos[0].score;
+        undos = new Array();
         drawCanvas();
         updateCountLabels();
     }
@@ -180,6 +185,8 @@ function updateCountLabels() {
         let countLabel = document.getElementById(countLabelName);
         countLabel.innerText = "" + counts[i];
     }
+
+    document.getElementById("score").innerText = score;
 }
 
 function loadImage() {
@@ -200,8 +207,9 @@ function tidy() {
             highlightedArray[x][y] = 0;
         }
     }
-    undoBoardArrays = new Array();
+    undos = new Array();
     situation = 0;
+    score = 0;
 }
 
 function randomize() {
@@ -211,8 +219,9 @@ function randomize() {
             highlightedArray[x][y] = 0;
         }
     }
-    undoBoardArrays = new Array();
+    undos = new Array();
     situation = 0;
+    score = 0;
 }
 
 function drawCanvas() {
@@ -279,14 +288,18 @@ function boardCanvasMouseDown(event) {
     let x = Math.floor(event.offsetX / singleSize);
     let y = Math.floor(event.offsetY / singleSize);
     if (ableToVanish(x, y)) {
-        undoBoardArrays.push(JSON.stringify(boardArray));
-        vanish(x, y, boardArray[x][y]);
+        undos.push({boardArrayJSON: JSON.stringify(boardArray), score: score});
+        let addedScore = vanish(x, y, boardArray[x][y]);
+        score += addedScore;
         grave();
-        updateCountLabels();
         lastMoveX = -1;
         lastMoveY = -1;
+        situation = checkSituation();
+        if (situation == 2) {
+            score += 1000;
+        }
+        updateCountLabels();
     }
-    situation = checkSituation();
     unfind();
     drawCanvas();
 }
@@ -311,6 +324,18 @@ function ableToVanish(x, y) {
     return false;
 }
 
+function countRemains() {
+    let remains = 0;
+    for (let x = 0; x < width; x++) {
+        for (let y = 0; y < height; y++) {
+            if (boardArray[x][y] != 0) {
+                remains++;
+            }
+        }
+    }
+    return remains;
+}
+
 function vanish(x, y, color) {
     if (x < 0 || x >= width || y < 0 || y >= height) {
         return;
@@ -318,11 +343,14 @@ function vanish(x, y, color) {
     if (boardArray[x][y] != color) {
         return;
     }
+    let remainsBefore = countRemains();
     boardArray[x][y] = 0;
     vanish(x - 1, y, color);
     vanish(x + 1, y, color);
     vanish(x, y - 1, color);
     vanish(x, y + 1, color);
+    let remainsAfter = countRemains();
+    return (remainsBefore - remainsAfter - 2) * (remainsBefore - remainsAfter - 2);
 }
 
 function grave() {
