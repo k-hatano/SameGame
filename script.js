@@ -13,6 +13,7 @@ let highlightedArray = new Array();
 let undos = new Array();
 let score = 0;
 let situation = 0; // 0: Playable, 1: No Move, 2: Perfect
+let finding = false;
 
 let lastMoveX = -1;
 let lastMoveY = -1;
@@ -47,7 +48,11 @@ onload = function() {
     });
 
     document.getElementById('find').addEventListener('click', function(event){
-        findAll();
+        if (finding) {
+            unfind();
+        } else {
+            findAll();
+        }
     });
 };
 
@@ -81,6 +86,9 @@ function hightlightIfAbleToVanish(x, y) {
 }
 
 function boardCanvasMouseMove(event) {
+    if (finding) {
+        return;
+    }
     let x = Math.floor(event.offsetX / singleSize);
     let y = Math.floor(event.offsetY / singleSize);
     if (x == lastMoveX && y == lastMoveY) {
@@ -94,6 +102,9 @@ function boardCanvasMouseMove(event) {
 }
 
 function boardCanvasMouseOut(event) {
+    if (finding) {
+        return;
+    }
     lastMoveX = -1;
     lastMoveY = -1;
     resetHighlight();
@@ -109,6 +120,7 @@ function resetHighlight() {
 }
 
 function findAll() {
+    finding = true;
     for (let x = 0; x < width; x++) {
         for (let y = 0; y < height; y++) {
             if (ableToVanish(x, y)) {
@@ -122,11 +134,13 @@ function findAll() {
 }
 
 function unfind() {
+    finding = false;
     for (let x = 0; x < width; x++) {
         for (let y = 0; y < height; y++) {
             highlightedArray[x][y] = 0;
         }
     }
+    drawCanvas();
 }
 
 function init() {
@@ -138,9 +152,11 @@ function init() {
     }
     undos = new Array();
     score = 0;
+    finding = false;
 }
 
 function newGame(magic) {
+    finding = false;
     if (magic) {
         tidy();
     } else {
@@ -153,6 +169,7 @@ function newGame(magic) {
 function undo() {
     let lastUndo = undos.pop();
     if (lastUndo != undefined) {
+        unfind();
         boardArray = JSON.parse(lastUndo.boardArrayJSON);
         score = lastUndo.score;
         situation = 0;
@@ -163,6 +180,7 @@ function undo() {
 
 function retry() {
     if (undos.length >= 1) {
+        unfind();
         situation = 0;
         boardArray = JSON.parse(undos[0].boardArrayJSON);
         score = undos[0].score;
