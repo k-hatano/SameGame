@@ -209,7 +209,7 @@ function updateCountLabels() {
 
 function loadImage() {
     pieceImage = new Image();
-    pieceImage.src = ("./marble.png");
+    pieceImage.src = ("./macigame.png");
     pieceImage.onload = function() {
         drawCanvas();
     };
