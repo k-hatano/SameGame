@@ -20,31 +20,33 @@
 </head>
 
 <body>
-    <div id="gamearea">
-        <table id="toolbar">
-            <tr>
-                <td class="left">
-                    <button id="new">New</button>
-                    <button id="undo">Undo</button>
-                    <button id="retry">Retry</button>
-                    <button id="find">Find</button>
-                </td>
-                <td class="right">
-                    Score:
-                    <span id="score">0</span>&nbsp;
-                    <canvas id="piece_1" width="22px" height="22px"></canvas>
-                    <span id="count_1">0</span>&nbsp;
-                    <canvas id="piece_2" width="22px" height="22px"></canvas>
-                    <span id="count_2">0</span>&nbsp;
-                    <canvas id="piece_3" width="22px" height="22px"></canvas>
-                    <span id="count_3">0</span>&nbsp;
-                    <canvas id="piece_4" width="22px" height="22px"></canvas>
-                    <span id="count_4">0</span>&nbsp;
-                    <canvas id="piece_5" width="22px" height="22px"></canvas>
-                    <span id="count_5">0</span>
-                </td>
-            </tr>
-        </table>
+    <div id="gamearea" class="">
+        <div id="toolbar">
+            <div class="left">
+                <button id="new">New</button>
+                <button id="undo">Undo</button>
+                <button id="retry">Retry</button>
+                <button id="find">Find</button>
+                <select id="size">
+                    <option value="20x12">20×12</option>
+                    <option value="9x9">9×9</option>
+                </select>
+            </div>
+            <div class="right">
+                Score:
+                <span id="score">0</span>&nbsp;
+                <canvas id="piece_1" width="22px" height="22px"></canvas>
+                <span id="count_1">0</span>&nbsp;
+                <canvas id="piece_2" width="22px" height="22px"></canvas>
+                <span id="count_2">0</span>&nbsp;
+                <canvas id="piece_3" width="22px" height="22px"></canvas>
+                <span id="count_3">0</span>&nbsp;
+                <canvas id="piece_4" width="22px" height="22px"></canvas>
+                <span id="count_4">0</span>&nbsp;
+                <canvas id="piece_5" width="22px" height="22px"></canvas>
+                <span id="count_5">0</span>
+            </div>
+        </div>
         <canvas id="board" width="640px" height="384px"></canvas>
     </div>
 </body>

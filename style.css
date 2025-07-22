@@ -15,6 +15,11 @@ body {
 	margin: auto;
 }
 
+#gamearea.nine_by_nine {
+	width: 288px;
+	height: 320px;
+}
+
 #toolbar {
 	padding: 0px;
 	width: 640px;
@@ -22,22 +27,29 @@ body {
 	background-color: #eeeeee;
 }
 
-#toolbar tr {
-	padding: 0px;
+#gamearea.nine_by_nine #toolbar {
+	width: 288px;
+	height: 60px;
 }
 
-#toolbar td {
+#toolbar div {
 	padding: 0px 4px;
 	font-size: small;
 	vertical-align: middle;
 }
 
-#toolbar td.left {
-	text-align: left;
+#toolbar div.left {
+	float: left;
+    width: fit-content;
+    display: inline-block;
+    padding: 4px;
 }
 
-#toolbar td.right {
-	text-align: right;
+#toolbar div.right {
+	float: right;
+    width: fit-content;
+    display: inline-block;
+    padding: 4px;
 }
 
 #toolbar canvas {
@@ -48,9 +60,14 @@ body {
 	vertical-align: middle;
 }
 
-#canvas {
+#board {
 	position: absolute;
 	width: 640px;
 	height: 384px;
 	margin: auto;
+}
+
+#gamearea.nine_by_nine #board {
+	width: 288px;
+	height: 288px;
 }

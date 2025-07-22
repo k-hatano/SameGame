@@ -1,11 +1,11 @@
 
 const singleSize = 32;
 
-const width = 20;
-const height = 12;
+let width = 20;
+let height = 12;
 
-const boardCanvasWidth = width * singleSize;
-const boardCanvasHeight = height * singleSize;
+let boardCanvasWidth = width * singleSize;
+let boardCanvasHeight = height * singleSize;
 
 let pieceImage = new Image();
 let boardArray = new Array();
@@ -54,6 +54,27 @@ onload = function() {
             findAll();
         }
     });
+
+    document.getElementById('size').addEventListener('change', function(event){
+        var gamearea = document.getElementById('gamearea');
+        var board = document.getElementById('board');
+        var value = event.target.value;
+        if (value == '9x9') {
+            width = 9;
+            height = 9;
+            gamearea.className = 'nine_by_nine';
+            board.width = 288;
+            board.height = 288;
+        } else {
+            width = 20;
+            height = 12;
+            gamearea.className = '';
+            board.width = 640;
+            board.height = 384;
+        }
+        init();
+        newGame();
+    })
 };
 
 function hightlightIfAbleToVanish(x, y) {
@@ -144,6 +165,8 @@ function unfind() {
 }
 
 function init() {
+    boardCanvasWidth = width * singleSize;
+    boardCanvasHeight = height * singleSize;
     boardArray = new Array(width);
     highlightedArray = new Array(width);
     for (let i = 0; i < width; i++) {
@@ -291,7 +314,7 @@ function drawCanvas() {
         boardContext.strokeStyle = "black";
         boardContext.fillStyle = "black";
         boardContext.textAlign = "center";
-        boardContext.fillText("No Move", boardCanvasWidth / 2, boardCanvasHeight * 1 / 4);
+        boardContext.fillText("No More Move", boardCanvasWidth / 2, boardCanvasHeight * 1 / 4);
     }
     if (situation == 2) { // Prefect
         boardContext.font = "36px sans-serif";
